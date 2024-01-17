@@ -68,7 +68,7 @@ emmeans::contrast(res.emm, 'tukey') %>%
 library(pander)
 
 #if there was a significant change between any specific visit and baseline:
-emmeans::contrast(res.emm, 'trt.vs.ctrl') %>%
+emmeans::contrast(res.emm, 'change.vs.baseline') %>%
   broom::tidy() %>%
   head %>%
   pander
