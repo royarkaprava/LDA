@@ -1,4 +1,4 @@
-data <- read.table("H:/Documents/Course to teach/LDA/LDA/Slides/Treatment of Lead Exposed Children Trial.txt", quote="\"", comment.char="")
+data <- read.table("Treatment of Lead Exposed Children Trial.txt", quote="\"", comment.char="")
 
 #Wide format analysis
 fit <- lm(cbind(V3,V4,V5,V6)~V2, data=data)

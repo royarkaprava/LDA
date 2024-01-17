@@ -1,4 +1,4 @@
-data <- read.table("H:/Documents/Course to teach/LDA/LDA/Slides/Treatment of Lead Exposed Children Trial.txt", quote="\"", comment.char="")
+data <- read.table("Treatment of Lead Exposed Children Trial.txt", quote="\"", comment.char="")
 
 #Columns represent ID, Treatment Group, Lead Level Week 0, Lead Level Week 1, Lead Level Week 4, Lead Level Week 6. 
 
