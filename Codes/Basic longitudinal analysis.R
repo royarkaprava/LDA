@@ -1,6 +1,6 @@
 data <- read.table("Treatment of Lead Exposed Children Trial.txt", quote="\"", comment.char="")
 
-#Columns represent ID, Treatment Group, Lead Level Week 0, Lead Level Week 1, Lead Level Week 4, Lead Level Week 6. 
+#Columns represent ID, Treatment Group, V3=Lead Level Week 0, V4=Lead Level Week 1, V5=Lead Level Week 4, V6=Lead Level Week 6. 
 
 #Running ANOVA model for each time point
 fit <- lm(V3~V2, data=data)
