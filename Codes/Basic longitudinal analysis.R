@@ -16,7 +16,7 @@ fit <- lm(V6~V2, data=data)
 anova(fit)
 
 #######Checking correlation in placebo group
-cor(data[which(data$V2=="P"), 3:6])
+cov(data[which(data$V2=="P"), 3:6])
 
 ##############Cehcking mean and variance of the change in outcome between Week 1 and Week 0
 delta <- data[which(data$V2=="A"), 4]-data[which(data$V2=="A"), 3]
@@ -29,7 +29,6 @@ var(delta)/length(delta)
 
 #####But not
 (var(data[which(data$V2=="A"), 4])+var(data[which(data$V2=="A"), 3]))/length(delta)
-
 
 #####Contrast based lme in R
 library(lme4)
@@ -49,10 +48,33 @@ data_long
 data_long <- data_long[order(data_long$V1), ]
 data_long
 
-library(lme4)
-res <- lmer(measurement ~ factor(Week) + (1|V1), data = data_long)
-coef(summary(res))  
+#####################ANOVA analysis###################
+data_new = data_long
+data_new$Week <- as.character(data_new$Week)
+data_new$Week[grep("V3", data_long$Week)] = "0"
+data_new$Week[grep("V4", data_long$Week)] = "1"
+data_new$Week[grep("V5", data_long$Week)] = "4"
+data_new$Week[grep("V6", data_long$Week)] = "6"
+data_new$Week <- as.numeric(data_new$Week)
 
+ls <- lm(measurement~Week, data=data_new)
+model.matrix(ls)
+
+ls <- lm(measurement~as.factor(Week), data=data_new)
+model.matrix(ls)
+
+coef(summary(ls)) 
+gtsummary::tbl_regression(ls)
+anova(ls)
+
+library(lme4)
+res <- lme4::lmer(measurement ~ Week + (1|V1), data = data_new)
+out <- lFormula(measurement ~ Week + (1|V1), data=data_new)
+X <- as.matrix(out$X)
+Z <- t(as.matrix(out$reTrms$Zt))
+
+coef(summary(res))  
+gtsummary::tbl_regression(res)
 #anova(res)
 
 library(emmeans)
