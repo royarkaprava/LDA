@@ -26,4 +26,14 @@ data_new$Week[grep("V3", data_long$Week)] = "0"
 data_new$Week[grep("V4", data_long$Week)] = "1"
 data_new$Week[grep("V5", data_long$Week)] = "4"
 data_new$Week[grep("V6", data_long$Week)] = "6"
-data_new$Week <- as.numeric(data_new$Week)
+data_new$Week <- as.factor(data_new$Week)
+
+ls <- lm(measurement~as.factor(Week)*as.factor(V2), data=data_new)
+model.matrix(ls)
+coef(summary(ls)) 
+gtsummary::tbl_regression(ls)
+anova(ls)
+
+ls <- lm(measurement~as.factor(Week)*as.factor(V2), data=data_new)
+car::Anova(ls, type=2)
+car::Anova(ls, type=3)

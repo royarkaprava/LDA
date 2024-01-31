@@ -26,6 +26,8 @@ data_long <- gather(data, Week, measurement, V3:V6, factor_key=TRUE)
 
 data_long <- data_long[order(data_long$V1), ]
 
+#Here Week variable is a factor
+
 afmod <- afex::aov_car(measurement ~ V2*Week + Error(V1/Week), data=data_long)
 
 #Contrast is automatically applied V2, the treatment factor.
