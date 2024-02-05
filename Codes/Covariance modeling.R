@@ -17,10 +17,10 @@ resExp <- update(res,correlation = corExp(form = ~ Age))
 anova(res, resExp)
 
 ####Example covariance for differnet range parameter
-cs1Exp <- corExp(6, form = ~ Age|ID)
+cs1Exp <- corExp(1, form = ~ Age|ID)
 
 cs1Exp <- Initialize(cs1Exp, data_new)
-corMatrix(cs1Exp)
+corMatrix(cs1Exp)[[1]]
 
 ##################Gaussian covariance#############################
 resGaus <- update(res,correlation = corGaus(form = ~ Age))
@@ -37,35 +37,46 @@ fm1Over.lme <- lme(LogFEV1 ~ Age, data=data_new,
                    random=pdDiag(~Age) )
 
 #####################################################################################
-data <- read.table("H:/Documents/Course to teach/LDA/LDA/Slides/Treatment of Lead Exposed Children Trial.txt", quote="\"", comment.char="")
+data <- read.table("H:/Documents/GitHub/LDA/Codes/Data on seizure counts.txt", quote="\"", comment.char="")
 
 library(tidyr)
-data_long <- gather(data, Week, measurement, V3:V6, factor_key=TRUE)
+data_long <- gather(data, Week, measurement, V5:V8, factor_key=TRUE)
 data_long <- data_long[order(data_long$V1), ]
+
+####
+colnames(data_long)[4] = "Baseline"
+colnames(data_long)[1] = "Subject"
+colnames(data_long)[2] = "Treatment"
+colnames(data_long)[3] = "Age"
 
 data_new = data_long
 data_new$Week <- as.character(data_new$Week)
-data_new$Week[grep("V3", data_long$Week)] = "0"
-data_new$Week[grep("V4", data_long$Week)] = "1"
-data_new$Week[grep("V5", data_long$Week)] = "4"
-data_new$Week[grep("V6", data_long$Week)] = "6"
+#data_new$Week[grep("V4", data_long$Week)] = "0"
+data_new$Week[grep("V5", data_long$Week)] = "1"
+data_new$Week[grep("V6", data_long$Week)] = "2"
+data_new$Week[grep("V7", data_long$Week)] = "3"
+data_new$Week[grep("V8", data_long$Week)] = "4"
 data_new$Week <- as.numeric(data_new$Week)
-data_new$V1 <- factor(data_new$V1, order=T)
+
+data_new$Treatment <- as.factor(data_new$Treatment)
+data_new$measurement <- log(data_new$measurement)
+data_new$Baseline <- log(data_new$Baseline)
+
 
 library(nlme)
-res <- lme(measurement ~ Week, random = ~1|V1, data = data_new)
+res <- lme(measurement ~ Week, random = ~1|Subject, data = data_new)
 
 res.AR1 <- update(res, correlation = corAR1())
 res.ARMA11 <- update(res, corr = corARMA(p = 1, q = 1))
 
-fm1 <- lme(measurement ~ Week, random = ~1|V1, data = data_new)
+fm1 <- lme(measurement ~ Week, random = ~1|Subject, data = data_new)
 ACF(fm1, maxLag = 3)
 
 
 ctrl <- lmeControl(opt='optim'); #lmeControl(msMaxIter = 1000, msMaxEval = 1000)
 
-res <- lme(measurement ~ Week, random = ~Week|V1,control = ctrl, data = data_new)
+res <- lme(measurement ~ Week, random = ~Week|Subject,control = ctrl, data = data_new)
 
 ##Generalized least square############
 fm1 <- gls(measurement ~ Week, data_new,
-           correlation = corAR1(form = ~ 1 | V1))
+           correlation = corAR1(form = ~ 1 | Subject))
