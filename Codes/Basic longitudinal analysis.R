@@ -63,9 +63,14 @@ model.matrix(ls)
 ls <- lm(measurement~as.factor(Week), data=data_new)
 model.matrix(ls)
 
+ls <- lm(measurement~as.factor(Week)*as.factor(V2), data=data_new)
+X <- model.matrix(ls)
 coef(summary(ls)) 
 gtsummary::tbl_regression(ls)
 anova(ls)
+
+res <- lme4::lmer(measurement ~ as.factor(Week)*as.factor(V2) + (1|V1), data = data_new)
+gtsummary::tbl_regression(res)
 
 library(lme4)
 res <- lme4::lmer(measurement ~ Week + (1|V1), data = data_new)

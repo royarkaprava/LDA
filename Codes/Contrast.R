@@ -22,8 +22,8 @@ data_new$Week <- as.numeric(data_new$Week)
 data_new$Treatment <- as.factor(data_new$Treatment)
 
 data_new$Week <- as.factor(data_new$Week)
-data_new$measurement <- log(data_new$measurement)
-data_new$Baseline <- log(data_new$Baseline)
+data_new$measurement <- log(data_new$measurement+1)
+data_new$Baseline <- log(data_new$Baseline+1)
 
 contr.poly(4)
 contrasts(data_new$Week) = contr.poly(4)
