@@ -47,7 +47,6 @@ X <- bs(data_new$Week, df=M, degree = 3)
 res <- lme(measurement ~ X, random = ~1|Subject, data = data_new)
 res <- lme(measurement ~ X, random = ~X|Subject, data = data_new)
 
-library(splines)
 
 #####################Using mgcv###################
 gam_model <- gamm(measurement ~ s(Week, k = 4) +
