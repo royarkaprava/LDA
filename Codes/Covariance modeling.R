@@ -59,8 +59,8 @@ data_new$Week[grep("V8", data_long$Week)] = "4"
 data_new$Week <- as.numeric(data_new$Week)
 
 data_new$Treatment <- as.factor(data_new$Treatment)
-data_new$measurement <- log(data_new$measurement)
-data_new$Baseline <- log(data_new$Baseline)
+data_new$measurement <- log(data_new$measurement+1)
+data_new$Baseline <- log(data_new$Baseline+1)
 
 
 library(nlme)
@@ -80,3 +80,6 @@ res <- lme(measurement ~ Week, random = ~Week|Subject,control = ctrl, data = dat
 ##Generalized least square############
 fm1 <- gls(measurement ~ Week, data_new,
            correlation = corAR1(form = ~ 1 | Subject))
+
+fm1 <- gls(measurement ~ Week, data_new,
+           correlation = corSymm(form = ~ 1 | Subject))

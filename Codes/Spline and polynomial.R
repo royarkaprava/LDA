@@ -47,6 +47,23 @@ X <- bs(data_new$Week, df=M, degree = 3)
 res <- lme(measurement ~ X, random = ~1|Subject, data = data_new)
 res <- lme(measurement ~ X, random = ~X|Subject, data = data_new)
 
+library(splines)
+
+vec <- (1:100)/100
+
+X <- fda::bsplineS(vec, breaks=seq(0,1,length=10), norder = 3) 
+
+plot(vec, X[,1], type='l', col =1, ylim=range(X))
+points(vec, X[,2], type='l', col =2)
+points(vec, X[,3], type='l', col =3)
+
+vec <- (1:100)/100
+
+X <- splines::bs(vec, df=M, degree = 3) 
+
+plot(vec, X[,1], type='l', col =1, ylim=range(X))
+points(vec, X[,2], type='l', col =2)
+points(vec, X[,3], type='l', col =3)
 
 #####################Using mgcv###################
 gam_model <- gamm(measurement ~ s(Week, k = 4) +
