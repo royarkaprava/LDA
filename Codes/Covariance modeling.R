@@ -81,5 +81,6 @@ res <- lme(measurement ~ Week, random = ~Week|Subject,control = ctrl, data = dat
 fm1 <- gls(measurement ~ Week, data_new,
            correlation = corAR1(form = ~ 1 | Subject))
 
+#With unrestricted covariance
 fm1 <- gls(measurement ~ Week, data_new,
            correlation = corSymm(form = ~ 1 | Subject))
