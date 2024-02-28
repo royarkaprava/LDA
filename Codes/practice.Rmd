@@ -93,6 +93,9 @@ points(data$tij[which(data$ID%in%subs[2])],
        data$BF[which(data$ID%in%subs[2])], pch=2)
 
 # empirical BLUPs
+#One should never predict outside of the domain of the data
+#Hence subject specific design matrices are being formed
+
 xgrid1 <- data$tij[which(data$ID==subs[1])]
 xgrid2 <- data$tij[which(data$ID==subs[2])]
 Xmat1 <- cbind(rep(1,length(xgrid1)), xgrid1, xgrid1*(xgrid1>0))
@@ -169,6 +172,9 @@ points(data$tij[which(data$ID%in%subs[2])],
        data$BF[which(data$ID%in%subs[2])], pch=2)
 
 # empirical BLUPs-based estimates
+#One should never predict outside of the domain of the data
+#Hence subject specific design matrices are being formed
+
 xgrid1 <- data$tij[which(data$ID==subs[1])]
 xgrid2 <- data$tij[which(data$ID==subs[2])]
 Xmat1 <- cbind(rep(1,length(xgrid1)), xgrid1, xgrid1*(xgrid1>0))
