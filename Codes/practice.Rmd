@@ -1,0 +1,190 @@
+---
+title: "Practice"
+output: html_document
+date: "2024-02-28"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars}
+data <- read.table("menarche.txt", quote="\"", comment.char="")
+
+colnames(data) = c("ID", "Current age", "Age at menarche", "tij", "BF")
+
+
+
+library(ggplot2)
+
+plot <-ggplot(data=data, aes(x = tij, y = BF, group = ID))+
+  geom_line()+
+  geom_point(data = subset(data, tij < 0), aes(shape = "Before Menarche"))+
+  geom_point(data = subset(data, tij > 0), aes(shape = "After Menarche"))+
+  scale_shape_manual(values = c("Before Menarche" = 1, "After Menarche" = 15)) +
+  labs(x = "time relative to event", y = "Percent Body Fat")+
+  geom_vline(xintercept = 0, linetype = "longdash")+
+  scale_x_continuous(limits = c(-6,5), breaks = seq(-6,4,2))
+
+plot + theme(legend.position="none")
+
+
+```
+
+############Using lme4
+```{r}
+library(lme4)
+
+model <- lmer(BF ~ 1 + tij + I(ifelse(tij > 0, tij, 0)) + (1 + tij +I(ifelse(tij > 0, tij, 0)) | ID), data)
+
+VC = VarCorr(model)
+
+new_data <- data.frame(tij = c(-4:4))
+predict <- predict(model, new_data, re.form = NA)
+
+Zt <- as.matrix(cbind(1, new_data, (new_data > 0)*new_data))
+
+##Random effect covariance.
+G <- matrix(matrix(VC$ID), 3, 3)
+
+
+Mat <- Zt %*% G %*% t(Zt) + sigma(model)^2*diag(nrow(Zt)) #random effect variance + error sd
+
+
+###Correlation matrix R
+sd <- sqrt(diag(Mat))
+R <- diag(1/sd) %*% Mat %*% diag(1/sd)
+
+```
+
+Table 39
+```{r}
+coef(summary(model))
+```
+
+sort of Table 40
+```{r}
+VarCorr(model)
+```
+
+Table 41
+```{r}
+M <- R
+diag(M) <- diag(Mat)
+M
+```
+
+BLUP in Figures 29 and 30
+
+```{r}
+xgrid <- sort(unique(data$tij))
+Xmat <- cbind(rep(1,length(xgrid)), xgrid, xgrid*(xgrid>0))
+# Population average
+plot(xgrid,Xmat%*%fixef(model), ylim = range(data$BF), type = "l", lwd = 5,
+     ylab = "Percent body fat", xlab = "Time relative to menarche (years)")
+
+# Two randomly selected subs
+subs <- c(4,16) #sample(unique(data$ID), 2)
+points(data$tij[which(data$ID%in%subs[1])],
+       data$BF[which(data$ID%in%subs[1])], pch=1)
+
+points(data$tij[which(data$ID%in%subs[2])],
+       data$BF[which(data$ID%in%subs[2])], pch=2)
+
+# empirical BLUPs
+xgrid1 <- data$tij[which(data$ID==subs[1])]
+xgrid2 <- data$tij[which(data$ID==subs[2])]
+Xmat1 <- cbind(rep(1,length(xgrid1)), xgrid1, xgrid1*(xgrid1>0))
+Xmat2 <- cbind(rep(1,length(xgrid2)), xgrid2, xgrid2*(xgrid2>0))
+
+####Instead of Xmat1%*%...., you may also use predict of fitted functions as well.
+#ranef(model)$ID[subs[i],] will give the blup of bi's
+
+lines(xgrid1,Xmat1%*%unlist(fixef(model))+Xmat1%*%unlist(ranef(model)$ID[subs[1],]))
+lines(xgrid2,Xmat2%*%unlist(fixef(model))+Xmat2%*%unlist(ranef(model)$ID[subs[2],]))
+
+# OLS
+lmsub1 <- lm(BF ~ tij + I(ifelse(tij > 0, tij, 0)), data = data[which(data$ID == subs[1]),])
+lmsub2 <- lm(BF ~ tij + I(ifelse(tij > 0, tij, 0)), data = data[which(data$ID == subs[2]),])
+
+lines(xgrid1,Xmat1%*%lmsub1$coefficients, lty=2)
+lines(xgrid2,Xmat2%*%lmsub2$coefficients, lty=2)
+
+```
+
+############Using nlme
+```{r}
+
+library(nlme)
+
+res <- lme(BF ~ 1 + tij + I(ifelse(tij > 0, tij, 0)),
+           random = ~1 + tij +I(ifelse(tij > 0, tij, 0))|ID,
+           data = data)
+res_sum <- summary(res)
+
+VarCorr(res)
+G <- as.matrix(nlme::getVarCov(res))
+
+Mat <- Zt %*% G %*% t(Zt) + sigma(model)^2*diag(nrow(Zt)) #random effect variance + error sd
+
+
+###Correlation matrix R
+sd <- sqrt(diag(Mat))
+R <- diag(1/sd) %*% Mat %*% diag(1/sd)
+```
+
+Table 39
+```{r}
+coef(summary(res))
+```
+
+sort of Table 40
+```{r}
+VarCorr(res)
+```
+
+Table 41
+```{r}
+M <- R
+diag(M) <- diag(Mat)
+M
+```
+
+BLUP in Figures 29 and 30
+
+```{r}
+xgrid <- sort(unique(data$tij))
+Xmat <- cbind(rep(1,length(xgrid)), xgrid, xgrid*(xgrid>0))
+# Population average
+plot(xgrid,Xmat%*%res$coefficients$fixed, ylim = range(data$BF), type = "l", lwd = 5,
+     ylab = "Percent body fat", xlab = "Time relative to menarche (years)")
+
+# Two randomly selected subs
+subs <- c(4,16) #sample(unique(data$ID), 2)
+points(data$tij[which(data$ID%in%subs[1])],
+       data$BF[which(data$ID%in%subs[1])], pch=1)
+
+points(data$tij[which(data$ID%in%subs[2])],
+       data$BF[which(data$ID%in%subs[2])], pch=2)
+
+# empirical BLUPs-based estimates
+xgrid1 <- data$tij[which(data$ID==subs[1])]
+xgrid2 <- data$tij[which(data$ID==subs[2])]
+Xmat1 <- cbind(rep(1,length(xgrid1)), xgrid1, xgrid1*(xgrid1>0))
+Xmat2 <- cbind(rep(1,length(xgrid2)), xgrid2, xgrid2*(xgrid2>0))
+
+####Instead of Xmat1%*%...., you may also use predict of fitted functions as well.
+#res$coefficients$random$ID[subs[i],] will give the blup of bi's
+
+lines(xgrid1,Xmat1%*%res$coefficients$fixed+Xmat1%*%res$coefficients$random$ID[subs[1],])
+lines(xgrid2,Xmat2%*%res$coefficients$fixed+Xmat2%*%res$coefficients$random$ID[subs[2],])
+
+# OLS
+lmsub1 <- lm(BF ~ tij + I(ifelse(tij > 0, tij, 0)), data = data[which(data$ID == subs[1]),])
+lmsub2 <- lm(BF ~ tij + I(ifelse(tij > 0, tij, 0)), data = data[which(data$ID == subs[2]),])
+
+lines(xgrid1,Xmat1%*%lmsub1$coefficients, lty=2)
+lines(xgrid2,Xmat2%*%lmsub2$coefficients, lty=2)
+
+```
