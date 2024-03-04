@@ -66,6 +66,8 @@ data_new$Baseline <- log(data_new$Baseline+1)
 library(nlme)
 res <- lme(measurement ~ Week, random = ~1|Subject, data = data_new)
 
+res <- lme(measurement ~ Week, random = ~as.factor(Week)|Subject, data = data_new)
+
 res.AR1 <- update(res, correlation = corAR1())
 res.ARMA11 <- update(res, corr = corARMA(p = 1, q = 1))
 
