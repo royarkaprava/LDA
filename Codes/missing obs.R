@@ -145,3 +145,38 @@ data_new$Treatment <- as.factor(data_new$Treatment)
 library(nlme)
 summary(lme(measurement ~ Week, random = ~1|Subject, data = data_new))
 
+
+###LOCF
+data <- read.table("~/GitHub/LDA/Codes/cholesterol.txt", quote="\"", comment.char="")
+
+# colnames(data) = c("Treatment Group", "Subject", 
+#                    "Baseline", "Month 6", "Month 12", 
+#                    "Month 20", "Month 24")
+
+library(mice)
+
+data$V2[-c(1:62)] <- data$V2[-c(1:62)]+62
+
+library(tidyr)
+data_long <- gather(data, Week, measurement, V3:V7, factor_key=TRUE)
+colnames(data_long) <- c("Treatment", "Subject", "Week", "measurement")
+
+data_long <- data_long[order(data_long$Subject), ]
+
+data_new = data_long
+data_new$Week <- as.character(data_new$Week)
+data_new$Week[grep("V3", data_long$Week)] = "0"
+data_new$Week[grep("V4", data_long$Week)] = "6"
+data_new$Week[grep("V5", data_long$Week)] = "12"
+data_new$Week[grep("V6", data_long$Week)] = "20"
+data_new$Week[grep("V7", data_long$Week)] = "24"
+data_new$Week <- as.numeric(data_new$Week)
+
+data_new$Treatment <- as.factor(data_new$Treatment)
+
+data_new$measurement <- as.numeric(data_new$measurement)
+
+data_new <- DescTools::LOCF(data_new)
+
+library(nlme)
+summary(lme(measurement ~ Week, random = ~1|Subject, data = data_new))
