@@ -313,7 +313,7 @@ data$V5 <- as.numeric(data$V5)
 data$V6 <- as.numeric(data$V6)
 data$V7 <- as.numeric(data$V7)
 
-delta <- c(-mean(unlist(data[,-c(1:2)]),na.rm=T)*(5:1)/10, mean(unlist(data[,-c(1:2)]),na.rm=T)*(0:5)/10)
+delta <- c(-mean(unlist(data[,-c(1:2)]),na.rm=T)*(5:1)/20, mean(unlist(data[,-c(1:2)]),na.rm=T)*(0:5)/20)
 
 ini <- mice(data, maxit=0, print=F)
 pred <- ini$pred
@@ -332,46 +332,47 @@ cbind(delta, as.data.frame(t(output)))
 
 
 #Wide format analysis
-fit <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[1]]))
+fit1 <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[1]]))
 
 idata <- data.frame(Week = factor(c("V3","V4","V5","V6","V7")))
 idata
 
-rmaov <- car::Anova(fit, idata=idata, idesign = ~Week,  type=3)
+rmaov <- car::Anova(fit1, idata=idata, idesign = ~Week,  type=3)
 rmaov
 
 #Wide format analysis
-fit <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[2]]))
+fit2 <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[2]]))
 
-idata <- data.frame(Week = factor(c("V3","V4","V5","V6","V7")))
-idata
-
-rmaov <- car::Anova(fit, idata=idata, idesign = ~Week,  type=3)
+rmaov <- car::Anova(fit2, idata=idata, idesign = ~Week,  type=3)
 rmaov
 
 #Wide format analysis
-fit <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[3]]))
+fit3 <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[3]]))
 
-idata <- data.frame(Week = factor(c("V3","V4","V5","V6","V7")))
-idata
-
-rmaov <- car::Anova(fit, idata=idata, idesign = ~Week,  type=3)
+rmaov <- car::Anova(fit3, idata=idata, idesign = ~Week,  type=3)
 rmaov
 
 #Wide format analysis
-fit <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[4]]))
+fit4 <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[4]]))
 
-idata <- data.frame(Week = factor(c("V3","V4","V5","V6","V7")))
-idata
-
-rmaov <- car::Anova(fit, idata=idata, idesign = ~Week,  type=3)
+rmaov <- car::Anova(fit4, idata=idata, idesign = ~Week,  type=3)
 rmaov
 
 #Wide format analysis
-fit <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[5]]))
+fit5 <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[5]]))
 
-idata <- data.frame(Week = factor(c("V3","V4","V5","V6","V7")))
-idata
-
-rmaov <- car::Anova(fit, idata=idata, idesign = ~Week,  type=3)
+rmaov <- car::Anova(fit5, idata=idata, idesign = ~Week,  type=3)
 rmaov
+
+#Wide format analysis
+fit6 <- lm(cbind(V3,V4,V5,V6,V7)~V1, data=mice::complete(imp.all.undamped[[6]]))
+
+rmaov <- car::Anova(fit6, idata=idata, idesign = ~Week,  type=3)
+rmaov
+
+coef(fit1)
+coef(fit2)
+coef(fit3)
+coef(fit4)
+coef(fit5)
+coef(fit6)
