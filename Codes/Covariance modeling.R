@@ -77,7 +77,7 @@ ACF(fm1, maxLag = 3)
 
 ctrl <- lmeControl(opt='optim'); #lmeControl(msMaxIter = 1000, msMaxEval = 1000)
 
-res <- lme(measurement ~ Week, random = ~Week|Subject,control = ctrl, data = data_new)
+res <- lme(measurement ~ Week, random = ~as.factor(Week)|Subject,control = ctrl, data = data_new)
 
 ##Generalized least square############
 fm1 <- gls(measurement ~ Week, data_new,
