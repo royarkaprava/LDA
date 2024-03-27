@@ -167,7 +167,7 @@ library(nlme)
 summary(lme(measurement ~ Week, random = ~1|Subject, data = data_new))
 
 #################################################
-###################MICE with monotine missing###################################
+###################MICE with monotone missing###################################
 #################################################
 data <- read.table("~/GitHub/LDA/Codes/cholesterol.txt", quote="\"", comment.char="")
 
@@ -176,6 +176,12 @@ data <- read.table("~/GitHub/LDA/Codes/cholesterol.txt", quote="\"", comment.cha
 #                    "Month 20", "Month 24")
 
 data$V2[-c(1:62)] <- data$V2[-c(1:62)]+65
+
+data$V3 <- as.numeric(data$V3)
+data$V4 <- as.numeric(data$V4)
+data$V5 <- as.numeric(data$V5)
+data$V6 <- as.numeric(data$V6)
+data$V7 <- as.numeric(data$V7)
 
 ##Extracting the outcome part of the data
 library(mice)
@@ -324,7 +330,7 @@ for (i in 1:length(delta)) {
   d <- delta[i]
   cmd <- paste("imp[[j]][, i] <- imp[[j]][, i] +", d)
   post["V1"] <- cmd
-  imp <- mice(data, pred=pred, post = post, maxit = 10, seed = i * 22, print=FALSE)
+  imp <- mice(data, pred=pred, post = post, maxit = 10, seed = i * 22, print=FALSE, visit="monotone")
   imp.all.undamped[[i]] <- imp
 }
 output <- sapply(imp.all.undamped, function(x) pool(with(x, lm(cbind(V3,V4,V5,V6,V7)~V1)))$qbar)
