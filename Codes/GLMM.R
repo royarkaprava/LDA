@@ -14,11 +14,14 @@ gm1 <- glmer(Response~Treatment*as.factor(Visit)+(1|Subject),
              data=toenail,
              family=binomial)
 summary(gm1)
+car::Anova(gm1, type=3)
 ###Time as continuous
 gm2 <- glmer(Response~Treatment*Month+(1|Subject),
              data=toenail,
              family=binomial)
 summary(gm2)
+
+car::Anova(gm2, type=3)
 ###Adding random slope for Time
 gm3 <- glmer(Response~Treatment*Month+(1+Month|Subject),
              data=toenail,
@@ -26,17 +29,23 @@ gm3 <- glmer(Response~Treatment*Month+(1+Month|Subject),
 
 summary(gm3)
 
-################Without interaction moel for cases without significant interaction#######################
+car::Anova(gm3, type=3)
+
+################Without interaction model for cases without significant interaction#######################
 gm1p <- glmer(Response~Treatment+as.factor(Visit)+(1|Subject),
              data=toenail,
              family=binomial)
 summary(gm1p)
 
-gm3 <- glmer(Response~Treatment+Month+(1+Month|Subject),
+car::Anova(gm1p, type=2)
+
+gm3p <- glmer(Response~Treatment+Month+(1+Month|Subject),
              data=toenail,
              family=binomial)
 
-summary(gm3)
+summary(gm3p)
+
+car::Anova(gm3p, type=2)
 
 ###########################################################################################################
 ##########################################Count case#######################################################
@@ -75,13 +84,13 @@ gm2 <- glmer(measurement ~ Week*Treatment +(1+Week|Subject), data = data_new,
 summary(gm2)
 
 ################No significant interaction observed#############################
-gm1 <- glmer(measurement ~ Week+Treatment +(1|Subject), data = data_new,
+gm1p <- glmer(measurement ~ Week+Treatment +(1|Subject), data = data_new,
              family=poisson)
-summary(gm1)
+summary(gm1p)
 
-gm2 <- glmer(measurement ~ Week+Treatment +(1+Week|Subject), data = data_new,
+gm2p <- glmer(measurement ~ Week+Treatment +(1+Week|Subject), data = data_new,
              family=poisson)
-summary(gm2)
+summary(gm2p)
 
 
 ###############We can also supply Week as factor too
@@ -89,7 +98,7 @@ summary(gm2)
 ######################Autoregressive fitting#################################
 data_newAR <- NULL
 for(i in 1:length(unique(data_new$Subject))){
-  subi <- which(data_new$Subject==i)
+  subi <- which(data_new$Subject==unique(data_new$Subject)[i])
   
   temp <- data_new[subi,]
   
