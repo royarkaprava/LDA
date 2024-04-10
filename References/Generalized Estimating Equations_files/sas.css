@@ -1,0 +1,93 @@
+
+BODY  {background: white;
+       color: black;}
+/* H1,H2,H3,H4,H5 {font-family: verdana, helvetica, helv, sans-serif;
+   color: teal;
+   background-color: white}  */
+HR         {color: black;
+       background-color: white}
+PRE  {font-family: "courier new", courier, monospace;
+      font-weight: bold;
+/*    color: #005050;
+      padding-top: 5pt;   */
+      padding-bottom: 5pt;
+/*    background-color: white*/}
+PRE.tabbing  {font-family: "courier new", courier, monospace;
+      font-weight: bold;
+      color: #000000;
+/*    background: #FFFFFF; */
+      padding-top: 5pt;
+      padding-bottom: 5pt}
+.footnote  {color: #000000;
+      background: #FFFFCC}
+TABLE PRE {font-family: "courier new", courier, monospace;
+      font-weight: bold;
+/*    color: #000000;
+      background-color: #F0F0F0;   */
+      padding-top: 5pt;
+      padding-bottom: 5pt;
+/*    border: none */}
+TABLE,TR,TD,TBODY,TH {border-color: #000000}
+
+/* a:link     {color: #888844}  */
+/* a:visited  {color: #666666}  */
+/* a:active   {color: #44BBBB;  */
+/*             text-decoration: underline}  */
+/* a:hover    {color: #227070;  */
+/*             text-decoration: underline}  */
+
+.book {/* border:double #CCCC99 3px */}
+.booktitle {color:black;
+       margin-bottom: 0pt;
+       background-color: #CCCC99;
+       margin-top: 0pt}
+.chaphead {/* font-family: verdana, helvetica, helv, sans-serif; */
+           font-size: 80%;
+           /* border: solid #FFFFFF 1px */}
+.warning {color: red;
+          font-weight: bold;
+          background-color: white}
+.toc     {list-style-type: none;
+          font-family: verdana, helvetica, helv, sans-serif;
+          font-weight: bold}
+/* .ss {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: normal}  */
+.ssften {font-family: verdana, helvetica, helv, sans-serif;
+   font-size: 100%}
+.ssfeleven {font-family: verdana, helvetica, helv, sans-serif}
+.ssbeleven {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: bold}
+.ssieleven {font-family: verdana, helvetica, helv, sans-serif;
+   font-style: italic}
+.serifi {font-style: italic}
+.ssiten {font-family: verdana, helvetica, helv, sans-serif;
+   font-style: italic;
+   font-size: 100%}
+.sbiten {font-weight: bold;
+   font-style: italic}
+.ssbten {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: bold}
+.ssbiten {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: bold;
+   font-style: italic}
+.ssbfourteen {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: bold;
+   font-size: 110%}
+.ssbthirteen {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: bold;
+   font-size: 110%}
+.ssbifourteen {font-family: verdana, helvetica, helv, sans-serif;
+   font-weight: bold;
+   font-style: italic;
+   font-size: 110%}
+.seribi {font-weight: bold;
+   font-style: italic}
+.serifinine {font-style: italic;
+   font-size: 80%}
+.ssinine {font-family: verdana, helvetica, helv, sans-serif;
+   font-size: 80%}
+.ttobl {font-family: "courier new", courier, monospace;
+   font-weight: bold;
+   font-style: italic}
+.mathfont {font-family: "times new roman", times, serif;}
+.step {font-family: "times new roman", times, serif;}

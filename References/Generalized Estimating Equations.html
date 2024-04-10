@@ -1,0 +1,502 @@
+
+<!-- saved from url=(0056)https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect38.htm -->
+<html data-lt-installed="true"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Generalized Estimating Equations</title>
+<link rel="STYLESHEET" type="text/css" href="./Generalized Estimating Equations_files/sas.css">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" data-new-gr-c-s-check-loaded="14.1166.0" data-gr-ext-installed="">
+<!--Navigation Panel-->
+<table border="0" cellpadding="0">
+<tbody><tr valign="TOP">
+  <td align="CENTER">
+  <a name="topofpage" href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/index.htm">
+  <img border="0" src="./Generalized Estimating Equations_files/cont1.gif" alt="Chapter Contents" width="99" height="16"><br><font size="-2">Chapter Contents</font></a></td>
+  <td align="CENTER">
+  <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect37.htm"><img border="0" src="./Generalized Estimating Equations_files/prev1.gif" alt="Previous" width="99" height="16"><br><font size="-2">Previous</font></a></td>
+  <td align="CENTER">
+  <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect39.htm"><img border="0" src="./Generalized Estimating Equations_files/next1.gif" alt="Next" width="99" height="16"><br><font size="-2">Next</font></a></td>
+</tr>
+</tbody></table>
+<table bgcolor="#CCCC99" width="100%" cellpadding="4">
+<tbody><tr>
+  <td valign="MIDDLE" class="chaphead"><i><font size="2">The GENMOD Procedure</font></i></td>
+</tr>
+</tbody></table><br>
+<p><!--End of Navigation Panel-->
+</p><h2>Generalized Estimating Equations  </h2>
+<a name="idxgmo0469"></a><a name="idxgmo0470"></a><a name="idxgmo0471"></a><a name="idxgmo0472"></a><a name="idxgmo0473"></a><a name="idxgmo0474"></a>Let <span class="mathfont"><i>Y</i><sub><i>ij</i></sub></span>, <span class="mathfont"><i>j</i> = 1, ... ,<i>n</i><sub><i>i</i></sub></span>, <span class="mathfont"><i>i</i> = 1, ... ,<i>K</i></span>
+represent the <span class="mathfont"><i>j</i></span>th measurement on the <span class="mathfont"><i>i</i></span>th subject.
+There are <span class="mathfont"><i>n</i><sub><i>i</i></sub></span> measurements on subject <span class="mathfont"><i>i</i></span>
+and <img width="66" height="41" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq164.gif" alt="\sum_{i=1}^K n_i"> total measurements.
+<p>Correlated data are modeled using the same link
+function and linear predictor setup (systematic
+component) as the independence case.
+The random component is described by the same variance
+functions as in the independence case, but the covariance
+structure of the correlated measurements must also be modeled.
+Let the vector of measurements on the <span class="mathfont"><i>i</i></span>th subject be
+<span class="mathfont"><b><i>Y</i></b> = [<i>Y</i><sub><i>i</i>1</sub>, ... , <i>Y</i><sub><i>i n</i><sub><i>i</i></sub></sub>]'</span> with
+corresponding vector of means <img width="155" height="34" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq165.gif" alt="\bdmu=[\mu_{i1},
+ ... , \mu_{i n_i}]^&#39;"> and let <span class="mathfont"><b><i>V</i></b></span> be
+the covariance matrix of <span class="mathfont"><b><i>Y</i></b></span>.
+Let the vector of independent, or explanatory, variables
+for the <span class="mathfont"><i>j</i></span>th measurement on the <span class="mathfont"><i>i</i></span>th subject be
+
+</p><dl class="equation"><dd>
+<span class="mathfont"><b>X</b><sub><i>ij</i></sub> = [<i>x</i><sub><i>ij</i>1</sub>, ... , <i>x</i><sub><i>ijp</i></sub>]'</span>
+</dd></dl>
+The Generalized Estimating Equation of Liang and Zeger (1986)
+for estimating  the <span class="mathfont"><i>p</i> ×1</span> vector of regression parameters
+<img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}"> is an extension of the independence
+estimating equation to correlated data and is given by
+
+<dl class="equation"><dd><img width="294" height="113" src="./Generalized Estimating Equations_files/gmoeq166.gif" alt="S({\beta}) = \sum_{i=1}^K \frac{\partial \bdmu^&#39;}{\partial {\beta}}
+\bdV^{-1} (\bdY-\bdmu({\beta})) = 0"></dd></dl>
+<p>
+</p><p>Since
+
+</p><dl class="equation"><dd><img width="110" height="76" src="./Generalized Estimating Equations_files/gmoeq167.gif" alt="g(\mu_{ij}) = \xdpbeta"></dd></dl>
+where <span class="mathfont"><i>g</i></span> is the link function, the <span class="mathfont"><i>p</i> ×<i>n</i><sub><i>i</i></sub></span> matrix
+of partial derivatives of the mean with respect to the
+regression parameters for the <span class="mathfont"><i>i</i></span>th subject is given by
+
+<dl class="equation"><dd><img width="262" height="165" src="./Generalized Estimating Equations_files/gmoeq168.gif" alt="\frac{\partial \bdmu^&#39;}{\partial {\beta}} =
+[\displaystyle\frac{x_{i11}}{g^&#39;(\mu...
+ ...p}}{g^&#39;(\mu_{i1})} &amp;  ...  &amp;
+ \displaystyle\frac{x_{in_ip}}{g^&#39;(\mu_{in_i})} \ ]"></dd></dl>
+<p></p><h3><i>Working Correlation Matrix</i></h3>
+<a name="idxgmo0476"></a><a name="idxgmo0475"></a>Let <img width="53" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq169.gif" alt="R_i({\alpha})"> be an <span class="mathfont"><i>n</i><sub><i>i</i></sub> ×<i>n</i><sub><i>i</i></sub></span>
+"working" correlation matrix that is fully
+specified by the vector of parameters <img width="17" height="16" align="BOTTOM" border="0" src="./Generalized Estimating Equations_files/gmoeq170.gif" alt="{\alpha}">.The covariance matrix of <span class="mathfont"><b><i>Y</i></b></span> is modeled as
+
+<dl class="equation"><dd><img width="151" height="84" src="./Generalized Estimating Equations_files/gmoeq171.gif" alt="\bdV = \phi A_i^{\frac{1}2}R({\alpha})
+ A_i^{\frac{1}2}"></dd></dl>
+where <span class="mathfont"><b>A</b><sub><i>i</i></sub></span> is an <span class="mathfont"><i>n</i><sub><i>i</i></sub> ×<i>n</i><sub><i>i</i></sub></span> diagonal matrix
+with <img width="50" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq172.gif" alt="v(\mu_{ij})"> as the <span class="mathfont"><i>j</i></span>th diagonal element.
+If <img width="53" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq169.gif" alt="R_i({\alpha})"> is the true correlation matrix of
+<span class="mathfont"><b><i>Y</i></b></span>, then <span class="mathfont"><b><i>V</i></b></span> is the true covariance matrix of <span class="mathfont"><b><i>Y</i></b></span>.
+<p>The working correlation matrix is usually unknown and must be estimated.
+It is estimated in the iterative fitting process using
+the current value of the parameter vector <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}"> to
+compute appropriate functions of the Pearson residual
+
+</p><dl class="equation"><dd><img width="113" height="99" src="./Generalized Estimating Equations_files/gmoeq173.gif" alt="e_{ij}=\frac{y_{ij}-\mu_{ij}}{\sqrt{v(\mu_{ij})}}"></dd></dl>
+If you specify the working correlation as
+<span class="mathfont"><b>R</b><sub>0</sub> = <b>I</b></span>, which is the identity matrix, the
+GEE reduces to the independence estimating equation.
+<p>Following are the structures of the working
+correlation supported by the GENMOD procedure and the
+estimators used to estimate the working correlations.
+</p><p></p><div align="CENTER">
+<table cols="3" frame="BOX" rules="GROUPS" cellpadding="5" cellspacing="0" bgcolor="#F0F0F0" border="1"><colgroup><col align="JUSTIFY"><col align="JUSTIFY"></colgroup><colgroup><col align="JUSTIFY">
+</colgroup><tbody>
+<tr valign="TOP"><td bgcolor="#BBBBBB"><b>
+                      <font color="#003399" face="Verdana, Helvetica, Helv"><b>Working Correlation Structure</b></font></b>
+                      </td>
+                     <td bgcolor="#BBBBBB"><b>
+                      <font color="#003399" face="Verdana, Helvetica, Helv">&nbsp;</font></b>
+                      </td>
+                     <td bgcolor="#BBBBBB"><b>
+                      <font color="#003399" face="Verdana, Helvetica, Helv"><b>Estimator</b></font></b>
+                      </td>
+                     </tr></tbody><tbody>
+<tr valign="TOP"><td bgcolor="#DDDDDD"><b>Fixed</b></td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><span class="mathfont">Corr(<i>Y</i><sub><i>ij</i></sub>,<i>Y</i><sub><i>ik</i></sub>) = <i>r</i><sub><i>jk</i></sub></span>  
+where <span class="mathfont"><i>r</i><sub><i>jk</i></sub></span> is the <span class="mathfont"><i>jk</i></span>th element of
+a constant, user-specified correlation matrix
+<span class="mathfont"><b>R</b><sub>0</sub></span>.</td><td bgcolor="#DDDDDD">The working correlation is not estimated
+in this case.</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD"><b>Independent</b></td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="230" height="60" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq174.gif" alt="{\displaystyle
+ {Corr}(Y_{ij},Y_{ik})=
+ \{1 &amp; j = k \ 0 &amp; j \ne k
+ . }"></td><td bgcolor="#DDDDDD">The working correlation is not estimated
+in this case.</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD"><b><b><i>m</i></b>-dependent</b></td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="331" height="82" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq175.gif" alt="{\displaystyle
+ {Corr}(Y_{ij},Y_{i,j+t})=
+ \{1 &amp; t = 0 \ \alpha_{t} &amp; t=1,2, ... ,m \ 0 &amp; t \gt m . }"></td><td bgcolor="#DDDDDD"><img width="271" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq176.gif" alt="{\displaystyle
+ \hat{\alpha}_{t} =
+ \frac{1}{(K_t-p)\phi}\sum_{i=1}^K
+ \sum_{j\leq n_i-t}e_{ij}e_{i,j+t} }"></td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="135" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq177.gif" alt="{\displaystyle K_t = \sum_{i=1}^K (n_i - t)}"></td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD"><b>Exchangeable</b></td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="233" height="60" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq178.gif" alt="\displaystyle
+ {Corr}(Y_{ij},Y_{ik})=\{1 &amp; j = k \ \alpha &amp; j \neq k \ . "></td><td bgcolor="#DDDDDD"><img width="228" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq179.gif" alt="{\displaystyle
+ \hat{\alpha} =
+ \frac{1}{(N^{*}-p)\phi}\sum_{i=1}^K
+ \sum_{j\neq k}e_{ij}e_{ik} }"></td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="160" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq180.gif" alt="{\displaystyle N^{*}=\sum_{i=1}^K n_i(n_i-1)}"></td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD"><b>Unstructured</b></td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="248" height="60" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq181.gif" alt="\displaystyle
+ {Corr}(Y_{ij},Y_{ik})= \{
+ 1 &amp; j = k \ \alpha_{jk} &amp; j \neq k \ . "></td><td bgcolor="#DDDDDD"><img width="206" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq182.gif" alt="\displaystyle
+ \hat{\alpha}_{jk} = \frac{1}{(K-p)\phi}\sum_{i=1}^Ke_{ij}e_{ik} "></td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD"><b>Autoregressive AR(1)</b></td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="166" height="35" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq183.gif" alt="{Corr}(Y_{ij},Y_{i,j+t})=
+ \alpha^t">  for <span class="mathfont"><i>t</i> = 0,1,2, ... ,<i>n</i><sub><i>i</i></sub>-<i>j</i></span></td><td bgcolor="#DDDDDD"><img width="271" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq184.gif" alt="{\displaystyle
+ \hat{\alpha} = \frac{1}{(K_1-p)\phi}\sum_{i=1}^K
+ \sum_{j\leq n_i-1}e_{ij}e_{i,j+1} }"></td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD">&nbsp;</td><td bgcolor="#DDDDDD"><img width="139" height="73" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq185.gif" alt="{\displaystyle K_1 = \sum_{i=1}^K (n_i - 1)}"></td></tr></tbody>
+</table></div>
+<p></p><h3><i>Dispersion Parameter</i></h3>
+The dispersion parameter <img width="14" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq12.gif" alt="\phi"> is estimated by
+
+<dl class="equation"><dd><img width="167" height="116" src="./Generalized Estimating Equations_files/gmoeq186.gif" alt="\hat{\phi} = \frac{1}{N-p} \sum_{i=1}^K
+ \sum_{j=1}^{n_i} e_{ij}^2"></dd></dl>
+where <img width="107" height="41" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq187.gif" alt="N = \sum_{i=1}^K n_i"> is the total number of measurements
+and <span class="mathfont"><i>p</i></span> is the number of regression parameters.
+<p>The square root of <img width="14" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq137.gif" alt="\hat{\phi}"> is reported
+by PROC GENMOD as the scale parameter in the
+"Analysis of GEE Parameter Estimates
+ Model-Based Standard Error Estimates" output table.
+</p><p></p><h3><i>Fitting Algorithm</i></h3>
+The following is an algorithm for
+fitting the specified model using GEEs.
+Note that this is not in general a likelihood-based method
+of estimation, so that inferences based on likelihoods are
+not possible for GEE methods.
+<ol>
+<li> Compute an initial estimate of <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}"> with
+      an ordinary generalized linear model assuming independence.
+</li><li> Compute the working correlations <span class="mathfont"><b>R</b></span>
+      based on the standardized residuals, the current <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}">, and
+      the assumed structure of <span class="mathfont"><b>R</b></span>.
+</li><li> Compute an estimate of the covariance:
+      
+<dl class="equation"><dd><img width="151" height="84" src="./Generalized Estimating Equations_files/gmoeq188.gif" alt="\bdV = \phi A_i^{\frac{1}2}{\hat{R}}
+ ({\alpha}) A_i^{\frac{1}2}
+ "></dd></dl>
+</li><li> Update <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}">:      
+<dl class="equation"><dd><img width="477" height="116" src="./Generalized Estimating Equations_files/gmoeq189.gif" alt="{\beta}_{r+1} = {\beta}_{r} + [\sum_{i=1}^K
+ \frac{\partial \bdmu}{\partial {\be...
+ ...m_{i=1}^K \frac{\partial \bdmu}
+ {\partial {\beta}}^&#39;\bdV^{-1}
+ (\bdY-\bdmu) ]
+ "></dd></dl>
+</li><li> Iterate steps 2-4 until convergence
+</li></ol>
+<p></p><h3><i>Missing Data</i></h3>
+Refer to Diggle, Liang, and Zeger (1994, Chapter 11) for a
+discussion of missing values in longitudinal data.
+Suppose that you intend to take measurements
+<span class="mathfont"><i>Y</i><sub><i>i</i>1</sub>, ... , <i>Y</i><sub><i>in</i></sub></span> for the <span class="mathfont"><i>i</i></span>th unit.
+Missing values for which <span class="mathfont"><i>Y</i><sub><i>ij</i></sub></span> are missing whenever <span class="mathfont"><i>Y</i><sub><i>ik</i></sub></span>
+is missing for all <img width="46" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq190.gif" alt="j \ge k"> are called <i>dropouts</i>.
+Otherwise, missing values that occur intermixed with
+nonmissing values are <i>intermittent</i> missing values.
+The GENMOD procedure can estimate the working correlation
+from data containing
+both types of missing values using the <i>all
+available pairs</i> method, in which all nonmissing pairs
+of data are used in the moment estimators of the
+working correlation parameters defined previously.
+<p>For example, for the unstructured working correlation model,
+
+</p><dl class="equation"><dd><img width="204" height="97" src="./Generalized Estimating Equations_files/gmoeq191.gif" alt="\hat{\alpha}_{jk} = \frac{1}{(K^&#39;-p) \phi} \sum e_{ij} e_{ik}"></dd></dl>
+where the sum is over the units that have nonmissing
+measurements at times <span class="mathfont"><i>j</i></span> and <span class="mathfont"><i>k</i></span>, and <span class="mathfont"><i>K'</i></span> is the
+number of units with nonmissing measurements at <span class="mathfont"><i>j</i></span> and <span class="mathfont"><i>k</i></span>.
+Estimates of the parameters for other working correlation
+types are computed in a similar manner, using available
+nonmissing pairs in the appropriate moment estimators.
+<p>The contribution of the <span class="mathfont"><i>i</i></span>th unit to the parameter
+update equation is computed by omitting the
+elements of <img width="80" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq192.gif" alt="(\bdY - \bdmu)">, the columns of
+<img width="79" height="47" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq193.gif" alt="D_i^&#39;=\frac{\partial {\mu}}{\partial {\beta}}^&#39;">, and the rows
+and columns of <span class="mathfont"><b><i>V</i></b></span> corresponding to missing measurements.
+</p><p></p><h3><i>Parameter Estimate Covariances</i></h3>
+The <i>model-based</i> estimator of
+<img width="60" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq194.gif" alt="{Cov}(\hat{{\beta}})"> is given by
+
+<dl class="equation"><dd><img width="102" height="78" src="./Generalized Estimating Equations_files/gmoeq195.gif" alt="{{\Sigma}}_{m}(\hat{{\beta}}) = I_0^{-1}"></dd></dl>
+where
+
+<dl class="equation"><dd><img width="174" height="113" src="./Generalized Estimating Equations_files/gmoeq196.gif" alt="I_0 = \sum_{i=1}^K \frac{\partial \bdmu}
+ {\partial {\beta}}^&#39;\bdV^{-1}
+ \frac{\partial \bdmu}{\partial {\beta}}"></dd></dl>
+This is the GEE equivalent of the inverse of the Fisher
+information matrix that is often used in generalized
+linear models as an estimator of the covariance estimate
+of the maximum likelihood estimator of <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}">.It is a consistent estimator of the covariance
+matrix of <img width="16" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq118.gif" alt="\hat{{\beta}}"> if the mean model and the
+working correlation matrix are correctly specified.
+<p>The estimator
+
+</p><dl class="equation"><dd><img width="112" height="77" src="./Generalized Estimating Equations_files/gmoeq197.gif" alt="{{\Sigma}}_{e} = I_0^{-1} I_1 I_0^{-1}"></dd></dl>
+is called the <i>empirical</i>, or <i>robust</i>, estimator
+of the covariance matrix of <img width="16" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq118.gif" alt="\hat{{\beta}}"> where
+
+<dl class="equation"><dd><img width="275" height="113" src="./Generalized Estimating Equations_files/gmoeq198.gif" alt="I_{1} = \sum_{i=1}^K \frac{\partial \bdmu}
+ {\partial {\beta}}^&#39;\bdV^{-1}
+ {{\rm Cov}}(\bdY)
+ \bdV^{-1} \frac{\partial \bdmu}{\partial {\beta}}"></dd></dl>
+It has the property of being a consistent estimator
+of the covariance matrix of <img width="16" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq118.gif" alt="\hat{{\beta}}">, even if
+the working correlation matrix is misspecified, that
+is, if <img width="115" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq199.gif" alt="{Cov}(\bdY) \neq \bdV">.In computing <span class="mathfont"><b>M</b></span>, <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}"> and <img width="14" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq12.gif" alt="\phi"> are replaced by
+estimates, and <span class="mathfont">Cov(<b><i>Y</i></b>)</span> is replaced by the estimate
+
+<dl class="equation"><dd><img width="208" height="78" src="./Generalized Estimating Equations_files/gmoeq200.gif" alt="(\bdY - \bdmu(\hat{{\beta}}))(\bdY -
+ \bdmu(\hat{{\beta}}))^&#39;"></dd></dl>
+<p></p><h3><i>Multinomial GEEs</i></h3>
+Lipsitz, Kim, and Zhao (1994) and Miller, Davis, and Landis (1993)
+describe how to extend GEEs
+to multinomial data. Currently,
+only the independent working correlation is available
+for multinomial models in PROC GENMOD.
+<p></p><h3><i><a name="genmodalr0">Alternating Logistic Regressions</a></i></h3>
+If the responses are binary (that is, they take only two values),
+then there is an alternative method to account for the association
+among the measurements. The Alternating Logistic Regressions (ALR)
+algorithm of Carey, Zeger, and Diggle (1993) models the association
+between pairs of responses with log odds ratios, instead of with
+correlations, as ordinary GEEs do.
+<p>For binary data, the correlation between the <i>j</i>th and <i>k</i>th
+response is, by definition,
+
+</p><dl class="equation"><dd><img width="360" height="102" src="./Generalized Estimating Equations_files/gmoeq201.gif" alt="Corr(Y_{ij},Y_{ik}) = \frac{\Pr(Y_{ij}=1,Y_{ik}=1)-\mu_{ij}\mu_{ik}}
+ {\sqrt{\mu_{ij}(1-\mu_{ij})\mu_{ik}(1-\mu_{ik})}} "></dd></dl>
+The joint probability in the numerator satisfies the following
+bounds, by elementary properties of probability, since
+<img width="140" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq202.gif" alt="\mu_{ij}=\Pr(Y_{ij}=1)">:
+<dl class="equation"><dd><img width="466" height="75" src="./Generalized Estimating Equations_files/gmoeq203.gif" alt="\max(0,\mu_{ij}+\mu_{ik}-1) \leq \Pr(Y_{ij}=1,Y_{ik}=1) \leq
+ \min( \mu_{ij},\mu_{ik}) "></dd></dl>
+The correlation, therefore, is constrained to be within limits that
+depend in a complicated way on the means of the data.
+<p>The odds ratio, defined as
+
+</p><dl class="equation"><dd>
+<span class="mathfont"><i>OR</i>(<i>Y</i><sub><i>ij</i></sub>,<i>Y</i><sub><i>ik</i></sub>) = [(Pr(<i>Y</i><sub><i>ij</i></sub> = 1,<i>Y</i><sub><i>ik</i></sub> = 1)Pr(<i>Y</i><sub><i>ij</i></sub> = 0,<i>Y</i><sub><i>ik</i></sub> = 0))/(Pr(<i>Y</i><sub><i>ij</i></sub> = 1,<i>Y</i><sub><i>ik</i></sub> = 0)Pr(<i>Y</i><sub><i>ij</i></sub> = 0,<i>Y</i><sub><i>ik</i></sub> = 1))]</span>
+</dd></dl>
+is not constrained by the means and is preferred,
+in some cases, to  correlations for binary data.
+<p>The ALR algorithm seeks to model the logarithm of the odds ratio,
+<img width="192" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq204.gif" alt="{\gamma_{ijk} = \log(OR(Y_{ij},Y_{ik}))}">, as
+
+</p><dl class="equation"><dd><img width="93" height="78" src="./Generalized Estimating Equations_files/gmoeq205.gif" alt="\gamma_{ijk} = z_{ijk}&#39;{\alpha} "></dd></dl>
+where <img width="15" height="16" align="BOTTOM" border="0" src="./Generalized Estimating Equations_files/gmoeq206.gif" alt="{\alpha}"> is a <span class="mathfont"><i>q</i> ×1</span> vector of regression parameters
+and <span class="mathfont"><b>z</b><sub><i>ijk</i></sub></span> is a fixed, specified vector of coefficients.
+<p>The parameter <img width="33" height="30" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq207.gif" alt="\gamma_{ijk}"> can take any value in <img width="76" height="33" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq208.gif" alt="(-\infty, \infty)"> with
+<img width="66" height="30" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq209.gif" alt="\gamma_{ijk} = 0"> corresponding to no association.
+</p><p>The log odds ratio, when modeled in this way with a regression model,
+can take different values in subgroups defined by <span class="mathfont"><b>z</b><sub><i>ijk</i></sub></span>.
+For example, <span class="mathfont"><b>z</b><sub><i>ijk</i></sub></span> can define subgroups within clusters, or
+it can define  `block effects' between clusters.
+</p><p>You specify a GEE model for binary data using log odds ratios
+by specifying a model for the mean, as in ordinary GEEs, and
+a model for the log odds ratios. You can use any of the
+link functions appropriate for binary data in the model for the
+mean, such as logistic, probit, or complementary log-log.
+The ALR algorithm alternates between a GEE step to update the
+model
+for the mean and a logistic regression step to update the log odds ratio
+model.
+Upon convergence, the ALR algorithm
+provides estimates of the regression parameters
+for the mean, <img width="16" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq2.gif" alt="{\beta}">, the regression parameters for the log odds ratios,
+<img width="15" height="16" align="BOTTOM" border="0" src="./Generalized Estimating Equations_files/gmoeq206.gif" alt="{\alpha}">, their standard errors, and their covariances.
+</p><p></p><h4><i>Specifying Log Odds Ratio Models</i></h4>
+Specifying a regression  model for the log odds ratio requires
+you to specify rows of the <i>z</i>-matrix
+<span class="mathfont"><b>z</b><sub><i>ijk</i></sub></span> for each cluster <span class="mathfont"><i>i</i></span> and each unique within-cluster
+pair <span class="mathfont">(<i>j</i>, <i>k</i>)</span>.
+The GENMOD procedure provides several methods of specifying <span class="mathfont"><b>z</b><sub><i>ijk</i></sub></span>.
+These are controlled by the LOGOR=<span class="ssiten"><i>keyword</i></span> and associated
+options in the REPEATED statement.
+The supported keywords and the resulting log odds ratio models
+are described as follows.
+<br>
+<p></p><dl>
+<dt>EXCH
+</dt><dd>exchangeable log odds ratios. In this model, the log odds ratio
+is a constant for all clusters <span class="mathfont"><i>i</i></span> and pairs <span class="mathfont">(<i>j</i>,<i>k</i>)</span>. The parameter
+<img width="15" height="16" align="BOTTOM" border="0" src="./Generalized Estimating Equations_files/gmoeq132.gif" alt="\alpha"> is the  common log odds ratio.
+
+<dl class="equation"><dd>
+<span class="mathfont"><b>z</b><sub><i>ijk</i></sub> = 1 &nbsp;&nbsp;&nbsp;&nbsp; for all &nbsp;&nbsp;&nbsp;&nbsp;<i>i</i>, <i>j</i>, <i>k</i></span>
+</dd></dl><br></dd><dt>FULLCLUST
+</dt><dd>fully parameterized clusters.
+Each cluster is parameterized in the same way, and
+there is a parameter
+for each unique pair within clusters. If a complete cluster is of size
+<span class="mathfont"><i>n</i></span>, then there are <span class="mathfont">[(<i>n</i>(<i>n</i>-1))/2]</span> parameters in the vector
+<img width="15" height="16" align="BOTTOM" border="0" src="./Generalized Estimating Equations_files/gmoeq206.gif" alt="{\alpha}">. For example, if a full cluster is of size 4,
+then there are <span class="mathfont">[4 ×3/2] = 6</span> parameters,
+and the <i>z</i>-matrix is of the form
+
+<dl class="equation"><dd><img width="208" height="191" src="./Generalized Estimating Equations_files/gmoeq210.gif" alt="Z = [ 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \ ]"></dd></dl>
+The elements of <img width="15" height="16" align="BOTTOM" border="0" src="./Generalized Estimating Equations_files/gmoeq206.gif" alt="{\alpha}"> correspond to log odds ratios for cluster
+pairs in the following order:
+<br><br><table cols="2" frame="BOX" rules="GROUPS" cellpadding="5" cellspacing="0" bgcolor="#F0F0F0" border="1"><colgroup><col></colgroup><colgroup><col>
+</colgroup><tbody>
+<tr valign="TOP"><td bgcolor="#BBBBBB" align="LEFT" nowrap=""><b>
+                      <font color="#003399" face="Verdana, Helvetica, Helv">Pair</font></b>
+                      </td>
+                     <td bgcolor="#BBBBBB" align="LEFT" nowrap=""><b>
+                      <font color="#003399" face="Verdana, Helvetica, Helv">Parameter</font></b>
+                      </td>
+                     </tr></tbody><tbody>
+<tr valign="TOP"><td bgcolor="#DDDDDD" align="LEFT" nowrap="">(1,2)</td><td bgcolor="#DDDDDD" align="LEFT" nowrap="">Alpha1</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD" align="LEFT" nowrap="">(1,3)</td><td bgcolor="#DDDDDD" align="LEFT" nowrap="">Alpha2</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD" align="LEFT" nowrap="">(1,4)</td><td bgcolor="#DDDDDD" align="LEFT" nowrap="">Alpha3</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD" align="LEFT" nowrap="">(2.3)</td><td bgcolor="#DDDDDD" align="LEFT" nowrap="">Alpha4</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD" align="LEFT" nowrap="">(2,4)</td><td bgcolor="#DDDDDD" align="LEFT" nowrap="">Alpha5</td></tr>
+<tr valign="TOP"><td bgcolor="#DDDDDD" align="LEFT" nowrap="">(3,4)</td><td bgcolor="#DDDDDD" align="LEFT" nowrap="">Alpha6</td></tr></tbody>
+</table>
+</dd><dt>LOGORVAR(<i>variable</i>)
+</dt><dd>log odds ratios by cluster.
+The argument <i>variable</i> is a variable name
+that defines the `block effects' between clusters. The log odds ratios
+are constant within clusters, but they take a different value for
+each different value of the <i>variable</i>. For example, if
+<span class="ssfeleven">Center</span> is a variable in the input data set taking a different
+value for <span class="mathfont"><i>k</i></span> treatment centers, then specifying
+LOGOR=LOGORVAR(Center) requests a model with different
+log odds ratios for each of the <span class="mathfont"><i>k</i></span> centers, constant within center.
+<br><br></dd><dt>NESTK
+</dt><dd><i>k</i>-nested log odds ratios. You must also specify the
+SUBCLUST=<i>variable</i> option
+to define
+subclusters within clusters. Within each cluster, PROC GENMOD computes
+a log odds ratio parameter for pairs having the same value
+of <i>variable</i> for both members of the
+pair and one log odds ratio parameter for each unique combination
+of different values of <i>variable</i>.
+<br><br></dd><dt>NEST1
+</dt><dd>1-nested log odds ratios. You must also specify the
+SUBCLUST=<i>variable</i> option to define
+subclusters within clusters. There are
+two log odds ratio parameters for this model. Pairs having the same
+value of <i>variable</i>  correspond to one parameter;
+pairs having different
+values of <i>variable</i>  correspond to the other parameter.
+For example, if clusters are hospitals and subclusters are
+wards within hospitals, then patients within the same ward
+have one log odds ratio parameter, and patients from different wards
+have the other parameter.
+<br><br></dd><dt>ZFULL
+</dt><dd>specifies the full <i>z</i>-matrix. You must also specify
+a SAS data set containing the <i>z</i>-matrix with
+the ZDATA=<i>data-set-name</i> option. Each observation in the data set
+corresponds to one row of the <i>z</i>-matrix. You must specify the ZDATA
+data set as if all clusters are complete, that is, as if all
+clusters are the same size and there are no missing observations.
+The ZDATA data set has
+<span class="mathfont"><i>K</i> [<i>n</i><sub><i>max</i></sub>(<i>n</i><sub><i>max</i></sub>-1)/2]</span> observations, where <span class="mathfont"><i>K</i></span> is the number of
+clusters and <span class="mathfont"><i>n</i><sub><i>max</i></sub></span> is the maximum cluster size.
+If the members of  cluster <span class="mathfont"><i>i</i></span> are ordered as <span class="mathfont">1,2, ... ,<i>n</i></span>, then
+the rows of the <i>z</i>-matrix must be specified for pairs in the order
+<span class="mathfont">(1,2),(1,3), ... ,(1,<i>n</i>),(2,3), ... ,(2,<i>n</i>), ... ,(<i>n</i>-1,<i>n</i>)</span>.
+The variables specified in the REPEATED statement
+for the  SUBJECT effect must also be present in the ZDATA=
+data set to identify clusters.
+You must specify  variables in the data set
+that define the columns of the <i>z</i>-matrix by the
+ZROW=<i>variable-list</i> option. If there are <span class="mathfont"><i>q</i></span> columns,
+(<span class="mathfont"><i>q</i></span> variables in <i>variable-list</i>), then there are <span class="mathfont"><i>q</i></span>
+log odds ratio parameters. You can optionally specify
+variables indicating the cluster pairs corresponding to each
+row of the <i>z</i>-matrix with the YPAIR=(<i>variable1, variable2</i>)
+ option.
+If you specify this option, the data from the ZDATA data set is
+sorted within each cluster by <i>variable1</i> and
+<i>variable2</i>.
+See <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect47.htm">Example 29.6</a> for an example of specifying a full
+<i>z</i>-matrix.
+<br><br></dd><dt>ZREP
+</dt><dd>replicated <i>z</i>-matrix. You specify <i>z</i>-matrix data exactly
+as you do for the ZFULL case, except that you specify only one complete cluster.
+The <i>z</i>-matrix for the one cluster is replicated for each cluster.
+The number of observations in the ZDATA data set is
+<span class="mathfont">[(<i>n</i><sub>max</sub>(<i>n</i><sub>max</sub>-1))/2]</span>, where <span class="mathfont"><i>n</i><sub><i>max</i></sub></span> is the size of a complete
+cluster (a cluster with no missing observations).
+See <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect47.htm">Example 29.6</a> for an example of specifying a replicated
+<i>z</i>-matrix.
+<br><br></dd><dt>ZREP(matrix)
+</dt><dd>direct input of the replicated <i>z</i>-matrix.
+You specify the <i>z</i>-matrix
+for one cluster with the syntax
+LOGOR=ZREP ( <span class="mathfont">(<i>y<sub>1</sub></i>&nbsp;&nbsp;&nbsp;&nbsp;<i>y<sub>2</sub></i>) <i>z<sub>1</sub></i>&nbsp;&nbsp;&nbsp;&nbsp;<i>z<sub>2</sub></i> ... <i>z</i><sub><i>q</i></sub>, ...</span> ), where <span class="mathfont"><i>y<sub>1</sub></i></span> and <span class="mathfont"><i>y<sub>2</sub></i></span>
+are numbers representing a pair of observations and
+the values <span class="mathfont"><i>z<sub>1</sub></i>, <i>z<sub>2</sub></i>, ... , <i>z</i><sub><i>q</i></sub></span>
+make up the corresponding row of the <i>z</i>-matrix.
+The number of rows specified is
+<span class="mathfont">[(<i>n</i><sub>max</sub>(<i>n</i><sub>max</sub>-1))/2]</span>, where <span class="mathfont"><i>n</i><sub><i>max</i></sub></span> is the size of a complete
+cluster (a cluster with no missing observations).
+For example,
+<pre>   LOGOR =  ZREP((1 2) 1 0,
+                 (1 3) 1 0,
+                 (1 4) 1 0,
+                 (2 3) 1 1,
+                 (2 4) 1 1,
+                 (3 4) 1 1)
+</pre>
+specifies the <span class="mathfont">[4 ×3/2] = 6</span>
+rows of the <i>z</i>-matrix for a cluster of size 4 with <span class="mathfont"><i>q</i>=2</span>
+log odds ratio parameters.  The log odds ratio for pairs
+(1 2), (1 3), (1 4) is <img width="23" height="30" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq211.gif" alt="\alpha_1">, and the log odds ratio for
+pairs (2 3), (2 4), (3 4) is <img width="65" height="30" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq212.gif" alt="\alpha_1 + \alpha_2">.</dd></dl><br><h3><i><a name="genmodgss">Generalized Score Statistics</a></i></h3>
+Boos (1992) and Rotnitzky and Jewell (1990) describe score
+tests applicable to  testing <img width="63" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq213.gif" alt="{L{\beta}} = 0"> in GEEs,
+where <span class="mathfont"><b>L</b></span> is a user-specified <span class="mathfont"><i>r</i> ×<i>p</i></span> contrast matrix or a
+contrast for a Type 3 test of hypothesis.
+<br><br>Let <img width="16" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq115.gif" alt="\tilde{{\beta}}"> be the regression parameters resulting
+from solving the GEE under the restricted model
+<img width="63" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq213.gif" alt="{L{\beta}} = 0">, and let <img width="42" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq214.gif" alt="S(\tilde{{\beta}})"> be the
+generalized estimating equation values at <img width="16" height="40" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq115.gif" alt="\tilde{{\beta}}">.<br><br>The generalized score statistic is
+<br><br>
+<dl class="equation"><dd><img width="288" height="77" src="./Generalized Estimating Equations_files/gmoeq215.gif" alt="T =
+ S(\tilde{{\beta}})^&#39;{{\Sigma}}_{m}L^&#39;
+ (L{{\Sigma}}_{e}L^&#39;)^{-1}
+ L{{\Sigma}}_{m}S(\tilde{{\beta}})"></dd></dl>
+where <img width="32" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq216.gif" alt="{{\Sigma}}_{m}"> is the model-based covariance estimate and
+<img width="26" height="31" align="MIDDLE" border="0" src="./Generalized Estimating Equations_files/gmoeq217.gif" alt="{{\Sigma}}_{e}"> is the empirical covariance estimate.
+The <i>p</i>-values for <span class="mathfont"><i>T</i></span> are computed based on the chi-square distribution
+with <i>r</i> degrees of freedom.
+<p>
+<!--Navigation Panel-->
+<table border="0" cellpadding="0">
+<tbody><tr valign="TOP">
+  <td align="CENTER">
+  <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/index.htm">
+  <img border="0" src="./Generalized Estimating Equations_files/cont1.gif" alt="Chapter Contents" width="99" height="16"><br><font size="-2">Chapter Contents</font></a></td>
+  <td align="CENTER">
+  <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect37.htm"><img border="0" src="./Generalized Estimating Equations_files/prev1.gif" alt="Previous" width="99" height="16"><br><font size="-2">Previous</font></a></td>
+  <td align="CENTER">
+  <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect39.htm"><img border="0" src="./Generalized Estimating Equations_files/next1.gif" alt="Next" width="99" height="16"><br><font size="-2">Next</font></a></td>
+  <td align="CENTER">
+  <a href="https://www.sfu.ca/sasdoc/sashtml/stat/chap29/sect38.htm#topofpage">
+  <img border="0" src="./Generalized Estimating Equations_files/top1.gif" alt="Top" width="99" height="16"><br><font size="-2">Top</font></a></td>
+</tr>
+</tbody></table>
+</p><p><!--End of Navigation Panel-->
+</p><p><font size="1"><a href="https://www.sfu.ca/sasdoc/sashtml/common/images/copyrite.htm">Copyright © 1999 by SAS Institute Inc., Cary, NC, USA. All rights reserved.</a></font>
+
+
+</p></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
