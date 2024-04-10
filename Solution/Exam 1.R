@@ -55,7 +55,7 @@ anova(mod.AR1, mod.ARMA11)
 anova(mod.MA1, mod.ARMA11)
 
 ###Likelihood comparison is not conclusive
-AIC(modU, mod.AR1, mod.MA1, mod.ARMA11)
+AIC(modU, mod.AR1, mod.MA1)#, mod.ARMA11)
 
 ####mod.AR1 has the smallest AIC, so it is chose. But unstructured GLS estimate is also close.
 
@@ -106,7 +106,7 @@ tstat <- m/stder      ## t statistic
 #number of parameters for mean 
 par1 <- length(coef)
 #number of parameters for random effect variance
-par2 <- n*(n-1)/2
+par2 <- n*(n-1)/2+n
 
 number_of_parameters_estimated <- par1 +  par2 
 error_df = nrow(data_long) - number_of_parameters_estimated
@@ -151,8 +151,8 @@ V <- bldiag(V)
 
 #multivariate meta-analysis with the model coefficients
 #The V matrix contains the variances and covariances of the sampling errors. We also allow for heterogeneity in the true outcomes (i.e., coefficients) and allow them to be correlated (by using an unstructured variance-covariance matrix for the true outcomes).
-Sex <- dummy(as.factor(rep(data$Gender, each=2)))
-estmd <- dummy(as.factor(estm))
+Sex <- as.numeric(as.factor(rep(data$Gender, each=2)))-1
+estmd <- as.numeric(as.factor(estm))-1
 
 Xmat <- cbind("Intercept"=1-estmd, "Slope"=estmd, "Inte_Male"=(1-estmd)*Sex, "Sl_Male"=estmd * Sex)
 

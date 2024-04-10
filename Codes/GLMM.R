@@ -45,6 +45,7 @@ gm3p <- glmer(Response~Treatment+Month+(1+Month|Subject),
 
 summary(gm3p)
 
+###Does not make sense
 car::Anova(gm3p, type=2)
 
 ###########################################################################################################
