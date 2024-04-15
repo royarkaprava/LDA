@@ -120,7 +120,7 @@ for(i in 1:length(unique(data_new$Subject))){
 colnames(data_newAR)[7] <- "Yt_1"
 
 
-gm1 <- glmer(measurement ~ Week+Treatment+Yt_1 +(1|Subject), data = data_newAR,
+gm1 <- glmer(measurement ~ Week*Treatment+Yt_1 +(1|Subject), data = data_newAR,
              family=poisson)
 summary(gm1)
 
