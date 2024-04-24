@@ -52,10 +52,10 @@ colnames(data_long)[3] = "Age"
 data_new = data_long
 data_new$Week <- as.character(data_new$Week)
 #data_new$Week[grep("V4", data_long$Week)] = "0"
-data_new$Week[grep("V5", data_long$Week)] = "1"
-data_new$Week[grep("V6", data_long$Week)] = "2"
-data_new$Week[grep("V7", data_long$Week)] = "3"
-data_new$Week[grep("V8", data_long$Week)] = "4"
+data_new$Week[grep("V5", data_long$Week)] = "2"
+data_new$Week[grep("V6", data_long$Week)] = "4"
+data_new$Week[grep("V7", data_long$Week)] = "6"
+data_new$Week[grep("V8", data_long$Week)] = "8"
 data_new$Week <- as.numeric(data_new$Week)
 
 data_new$Treatment <- as.factor(data_new$Treatment)
