@@ -12,9 +12,9 @@ colnames(data) <- c("Litter_ID", "Dose", "Fetal_Weight", "Fetal_Malformations")
 data$Litter_ID <- as.factor(data$Litter_ID)
 
 library(nlme)
-res <- lme(Fetal_Weight ~ sqrt(Dose), random = ~1|Litter_ID, data = data)
+res <- lme(Fetal_Weight ~ sqrt(Dose/750), random = ~1|Litter_ID, data = data)
 
-res <- lme4::lmer(Fetal_Weight ~ sqrt(Dose)+ (1|Litter_ID), data = data)
+res <- lme4::lmer(Fetal_Weight ~ sqrt(Dose/750)+ (1|Litter_ID), data = data)
 
 ###############3-level############
 
